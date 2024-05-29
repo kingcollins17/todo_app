@@ -27,9 +27,7 @@ class _CompletedTodosPageState extends State<CompletedTodosPage> {
               child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 18, vertical: 6),
                 child: Builder(builder: (context) {
-                  final histories = historify(vm.state.todos
-                      .where((element) => element.dateCompleted != null)
-                      .toList());
+                  final histories = historify(vm.state.completedTodos);
                   final children = histories.map((e) => history(e.$1, e.$2));
                   return Column(
                     children: children
@@ -76,25 +74,27 @@ String month(int index) => [
     ][index - 1];
 
 List<(DateTime, List<TodoItemData>)> historify(List<TodoItemData> todos) {
+  if (todos.isEmpty) return [];
   final result = <DateTime, List<TodoItemData>>{};
+
   var current = todos.first.dateCompleted!;
   result[current] = <TodoItemData>[todos.first];
   var tempBuffer = <TodoItemData>[];
+
   for (var i = 1; i < todos.length; i++) {
-    final tempDate = todos[i].dateCompleted!;
+    // final tempDate = todos[i].dateCompleted!;
+    result[current]?.add(todos[i]);
 
-    if (tempDate.month != current.month && tempDate.year != current.year) {
-      current = tempDate;
-      tempBuffer = result[current] ?? []; //get associated list
-      tempBuffer.add(todos[i]); //add to the list
-      result[current] = tempBuffer; //store back the list
+    // if (tempDate.month != current.month && tempDate.year != current.year) {
+    //   current = tempDate;
+    //   tempBuffer = result[current] ?? []; //get associated list
+    //   tempBuffer.add(todos[i]); //add to the list
+    //   result[current] = tempBuffer; //store back the list
 
-      //
-      tempBuffer = []; //reset tempBuffer
-    } else {
-      //if they are of the same month
-      result[current]?.add(todos[i]); //simply add to the associated list
-    }
+    // } else {
+    //   //if they are of the same month
+    //    //simply add to the associated list
+    // }
   }
 
   final res = <(DateTime, List<TodoItemData>)>[];
@@ -106,18 +106,18 @@ List<(DateTime, List<TodoItemData>)> historify(List<TodoItemData> todos) {
 
 const days = 32;
 final mockData = [
-  TodoItemData(todo: 'Check email')
-    ..date = DateTime.now().subtract(Duration(days: days)),
+  // TodoItemData(todo: 'Check email')
+  //   ..date = DateTime.now().subtract(Duration(days: days)),
   TodoItemData(todo: 'Yoga Class')
     ..date = DateTime.now().subtract(Duration(days: days)),
   TodoItemData(todo: 'Freelance Work', isFavorite: true)
     ..date = DateTime.now().subtract(Duration(days: days * 2)),
-  TodoItemData(todo: 'Video editing')
-    ..date = DateTime.now().subtract(Duration(days: days * 2)),
+  // TodoItemData(todo: 'Video editing')
+  //   ..date = DateTime.now().subtract(Duration(days: days * 2)),
   TodoItemData(todo: 'Water plants')
     ..date = DateTime.now().subtract(Duration(days: days * 2)),
-  TodoItemData(todo: 'Dashboard Design', isFavorite: true)
-    ..date = DateTime.now().subtract(Duration(days: days * 3)),
+  // TodoItemData(todo: 'Dashboard Design', isFavorite: true)
+  //   ..date = DateTime.now().subtract(Duration(days: days * 3)),
   TodoItemData(todo: 'Shopping')
     ..date = DateTime.now().subtract(Duration(days: days * 3)),
 ];

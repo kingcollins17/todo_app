@@ -36,8 +36,10 @@ class _TodoListPageState extends State<TodoListPage> {
                             EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                         child: Column(
                           children: [
-                            SizedBox(
-                              height: constraints.maxHeight * 0.5,
+                            ConstrainedBox(
+                              constraints: BoxConstraints(
+                                maxHeight: constraints.maxHeight * 0.5,
+                              ),
                               child: categoryCards(vm),
                             ),
                             spacer(y: 15),

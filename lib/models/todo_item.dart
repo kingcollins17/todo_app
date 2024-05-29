@@ -69,8 +69,13 @@ final mock = [
       todo: 'Online shopping', isCompleted: true, category: categories[1]),
   TodoItemData(todo: 'UX Design', category: categories[1]),
   TodoItemData(
+      todo: 'Water plants', isCompleted: true, category: categories.last),
+  TodoItemData(
       todo: 'Apply for a job', isFavorite: true, category: categories[1]),
-  TodoItemData(todo: 'Read article', category: categories.last),
+  TodoItemData(todo: 'Read article', category: categories.last)
+];
+
+final mockCompleted = [
   TodoItemData(todo: 'Check email', isCompleted: true)
     ..date = DateTime.now().subtract(const Duration(days: days)),
   TodoItemData(todo: 'Yoga Class', isCompleted: true)
@@ -79,9 +84,6 @@ final mock = [
     ..date = DateTime.now().subtract(const Duration(days: days * 2)),
   TodoItemData(
       todo: 'Video editing', isCompleted: true, category: categories[1])
-    ..date = DateTime.now().subtract(const Duration(days: days * 2)),
-  TodoItemData(
-      todo: 'Water plants', isCompleted: true, category: categories.last)
     ..date = DateTime.now().subtract(const Duration(days: days * 2)),
   TodoItemData(todo: 'Dashboard Design', isFavorite: true)
     ..date = DateTime.now().subtract(const Duration(days: days * 3)),

@@ -24,10 +24,13 @@ TodoState todoReducer(TodoState state, action) {
         (payload).isFavorite = !payload.isFavorite;
         break;
 
-      case TodoActionType.complete when action.payload is TodoItemData:
-        (action.payload as TodoItemData).completeTodo();
+      case TodoActionType.complete
+          when action.payload is TodoItemData &&
+              !state.completedTodos.contains(action.payload):
+        var payload = (action.payload as TodoItemData);
+        payload.completeTodo();
         state.notification = 'Todo Completed!';
-        // Future.delayed(Duration(seconds: 3), () => state.notification = null);
+        state.completedTodos = {payload, ...state.completedTodos}.toList();
         break;
       //
       case TodoActionType.notify when action.payload is String:

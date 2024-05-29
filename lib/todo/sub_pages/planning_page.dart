@@ -4,6 +4,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:todo_app/notification_widget.dart';
 import 'package:todo_app/shared.dart';
 import 'package:todo_app/store/store.dart';
 import '../widgets/widgets.dart';
@@ -30,49 +31,63 @@ class _TodoPlanningPageState extends State<TodoPlanningPage> {
                 angle: math.pi / 2,
                 child: Icon(Icons.arrow_forward_ios_outlined,
                     size: 18, color: Color(0xFF616161)));
+            //
             return Material(
               color: Colors.transparent,
-              child: SingleChildScrollView(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Stack(
+                children: [
+                  SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 18.0, vertical: 10),
+                    child: Column(
                       children: [
-                        Text('Overdue', style: headerStyle),
-                        dropdown,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Overdue', style: headerStyle),
+                            dropdown,
+                          ],
+                        ),
+                        spacer(),
+                        ...[
+                          TodoItem(
+                            data: TodoItemData(todo: 'Shopping'),
+                            overDue: true,
+                            showDetails: true,
+                          ),
+                          TodoItem(
+                              data: TodoItemData(todo: 'Yoga Class'),
+                              overDue: true,
+                              showDetails: true),
+                        ],
+                        ...overdue(vm),
+                        spacer(y: 15),
+                        spacer(y: 25),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Planning', style: headerStyle),
+                            dropdown
+                          ],
+                        ),
+                        spacer(y: 10),
+                        ...List.generate(
+                            vm.state.todos.length,
+                            (index) => TodoItem(
+                                showDetails: true, data: vm.state.todos[index]))
                       ],
                     ),
-                    spacer(),
-                    ...[
-                      TodoItem(
-                        data: TodoItemData(todo: 'Shopping'),
-                        overDue: true,
-                        showDetails: true,
-                      ),
-                      TodoItem(
-                          data: TodoItemData(todo: 'Yoga Class'),
-                          overDue: true,
-                          showDetails: true),
-                    ],
-                    ...overdue(vm),
-                    spacer(y: 15),
-                    spacer(y: 25),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Planning', style: headerStyle),
-                        dropdown
-                      ],
-                    ),
-                    spacer(y: 10),
-                    ...List.generate(
-                        vm.state.todos.length,
-                        (index) => TodoItem(
-                            showDetails: true, data: vm.state.todos[index]))
-                  ],
-                ),
+                  ),
+                  if (vm.state.notification != null)
+                    Positioned(
+                        top: 8,
+                        child: NotificationWidget(
+                            notification: vm.state.notification!,
+                            closer: () {
+                              vm.dispatch(TodoAction(
+                                  type: TodoActionType.clearNotification));
+                            }))
+                ],
               ),
             );
           });

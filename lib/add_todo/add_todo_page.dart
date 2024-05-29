@@ -21,7 +21,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
   int deadline = 2;
   @override
   Widget build(BuildContext context) {
-    var style = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
+    var style = TextStyle(fontSize: 16, fontWeight: FontWeight.w500);
     return StoreConnector<TodoState, TodoViewModel>(
         converter: (store) => TodoViewModel(store),
         builder: (context, vm) {
@@ -56,14 +56,14 @@ class _AddTodoPageState extends State<AddTodoPage> {
                                     isDense: true,
                                   ),
                                 ),
-                                spacer(y: 15),
+                                spacer(y: 25),
                                 Text(
                                   'Select category',
                                   style: style,
                                 ).align(Alignment.centerLeft),
                                 spacer(y: 6),
                                 _categories,
-                                spacer(y: 15),
+                                spacer(y: 25),
                                 Text('Deadline in?', style: style)
                                     .align(Alignment.centerLeft),
                                 DropdownButtonFormField<int>(
