@@ -40,26 +40,24 @@ class _TodoPlanningPageState extends State<TodoPlanningPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Overdue',
-                          style: headerStyle,
-                        ),
-                        dropdown
+                        Text('Overdue', style: headerStyle),
+                        dropdown,
                       ],
                     ),
-                    spacer(y: 15),
+                    spacer(),
                     ...[
                       TodoItem(
+                        data: TodoItemData(todo: 'Shopping'),
                         overDue: true,
                         showDetails: true,
-                        data: TodoItemData(todo: 'Shopping'),
                       ),
                       TodoItem(
-                        overDue: true,
-                        showDetails: true,
-                        data: TodoItemData(todo: 'Walking'),
-                      )
+                          data: TodoItemData(todo: 'Yoga Class'),
+                          overDue: true,
+                          showDetails: true),
                     ],
+                    ...overdue(vm),
+                    spacer(y: 15),
                     spacer(y: 25),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,5 +77,14 @@ class _TodoPlanningPageState extends State<TodoPlanningPage> {
             );
           });
         });
+  }
+
+  Iterable<Widget> overdue(TodoViewModel vm) {
+    return vm.state.todos
+        .where((element) =>
+            element.deadline.day < DateTime.now().day &&
+            element.deadline.month < DateTime.now().month)
+        .toList()
+        .map((e) => TodoItem(data: e, overDue: true, showDetails: true));
   }
 }

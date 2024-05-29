@@ -39,7 +39,7 @@ class _TodoAppState extends State<TodoApp> {
               style: TextStyle(
                   color: route == currentRoute ? lavendarIndigo : null,
                   fontSize: 10,
-                  fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.w500),
             )
           ],
         ),

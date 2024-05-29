@@ -76,7 +76,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
                                       (index) => DropdownMenuItem(
                                             value: index + 1,
                                             child: Text(
-                                              '$index days',
+                                              '${index + 1} days',
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold),
                                             ),

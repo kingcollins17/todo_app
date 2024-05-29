@@ -1,4 +1,4 @@
-const categories = ['Health', 'Work', 'Personal'];
+const categories = ['Healthy', 'Work', 'Personal'];
 
 ///
 ///

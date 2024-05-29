@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // import 'router_config.dart';
 
 final theme = ThemeData(
-  fontFamily: 'Quicksand',
+  fontFamily: 'WorkSans',
   colorScheme: ColorScheme.light(),
 );
 

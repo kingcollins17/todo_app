@@ -14,6 +14,7 @@ class TodoHomePage extends StatefulWidget {
 
 class _TodoHomePageState extends State<TodoHomePage> {
   var currentTab = _Tabs.todo;
+  final controller = PageController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +31,7 @@ class _TodoHomePageState extends State<TodoHomePage> {
           spacer(y: 15),
           Expanded(
             child: PageView(
+              controller: controller,
               onPageChanged: (value) => Future.delayed(
                 Duration(milliseconds: 600),
                 () => setState(() => currentTab = _Tabs.values[value]),
@@ -47,13 +49,22 @@ class _TodoHomePageState extends State<TodoHomePage> {
   }
 
   Widget wrapBar(Text child, _Tabs tab) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 6),
-      decoration: BoxDecoration(
-          border: tab == currentTab
-              ? Border(bottom: BorderSide(color: primary, width: 2))
-              : null),
-      child: child,
+    return GestureDetector(
+      onTap: () {
+        controller.animateToPage(
+          tab.index,
+          duration: Duration(milliseconds: 200),
+          curve: Curves.easeIn,
+        );
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 6),
+        decoration: BoxDecoration(
+            border: tab == currentTab
+                ? Border(bottom: BorderSide(color: primary, width: 2))
+                : null),
+        child: child,
+      ),
     );
   }
 
@@ -103,10 +114,13 @@ class _TodoHomePageState extends State<TodoHomePage> {
       Container(
         width: 45,
         height: 45,
+        clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Color(0xFFD8D8D8),
-        ),
+            // borderRadius: BorderRadius.circular(20),
+            shape: BoxShape.circle,
+            // color: Color(0xFFD8D8D8),
+            image:
+                DecorationImage(image: AssetImage('asset/images/profile.jpg'))),
       ),
       spacer(x: 10)
     ]);

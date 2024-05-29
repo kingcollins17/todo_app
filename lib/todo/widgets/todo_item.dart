@@ -77,8 +77,8 @@ class TodoItem extends StatelessWidget {
                               decoration: data.isCompleted
                                   ? TextDecoration.lineThrough
                                   : null,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
                             )),
                         if (showDetails) ...[
                           spacer(y: 15),
@@ -138,8 +138,8 @@ String _parseDate(DateTime date) => '${date.day}.${date.month}.${date.year}';
 
 Color urgency(DateTime date) =>
     switch (date.difference(DateTime.now()).inDays) {
-      > 3 => green,
-      > 0 && <= 3 => yellow,
+      >= 3 => green,
+      > 0 && <= 2 => yellow,
       <= 0 => red,
       _ => Colors.red
     };
