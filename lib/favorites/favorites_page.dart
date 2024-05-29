@@ -21,7 +21,7 @@ class FavoritesPage extends StatelessWidget {
           builder: (context, vm) => SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Column(
-                  children: vm.state.todos
+                  children: [...vm.state.todos, ...vm.state.completedTodos]
                       .where((element) => element.isFavorite)
                       .toList()
                       .map((e) => TodoItem(data: e))

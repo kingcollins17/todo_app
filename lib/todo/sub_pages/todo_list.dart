@@ -1,5 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:todo_app/models/todo_item.dart';
@@ -33,7 +33,7 @@ class _TodoListPageState extends State<TodoListPage> {
                       width: screen(context).width,
                       child: SingleChildScrollView(
                         padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 12),
                         child: Column(
                           children: [
                             ConstrainedBox(
@@ -43,11 +43,25 @@ class _TodoListPageState extends State<TodoListPage> {
                               child: categoryCards(vm),
                             ),
                             spacer(y: 15),
-                            Text(
-                              'All Todo',
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ).align(Alignment.centerLeft),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('All To do',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF303030),
+                                    )).align(Alignment.centerLeft),
+                                Transform.rotate(
+                                  angle: math.pi / 2,
+                                  child: Icon(
+                                    Icons.arrow_forward_ios_outlined,
+                                    size: 18,
+                                    color: Color(0xFF363636),
+                                  ),
+                                )
+                              ],
+                            ),
                             spacer(y: 15),
                             todoList(vm)
                           ],

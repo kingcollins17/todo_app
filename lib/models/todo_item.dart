@@ -26,7 +26,8 @@ class TodoItemData {
   void completeTodo() => _dateCompleted ??= DateTime.now();
 
   ///This would be removed in production
-  set date(DateTime value) => _dateCompleted = value;
+  set date(DateTime? value) => _dateCompleted = value;
+
   DateTime? get dateCompleted => _dateCompleted;
   factory TodoItemData.fromJson(dynamic json) {
     return TodoItemData(

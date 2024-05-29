@@ -19,7 +19,7 @@ class TodoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: screen(context).width * 0.9,
+      width: screen(context).width * 0.95,
       margin: EdgeInsets.symmetric(horizontal: 0, vertical: 4),
       padding: EdgeInsets.symmetric(horizontal: 6, vertical: 10),
       decoration: BoxDecoration(
@@ -34,9 +34,15 @@ class TodoItem extends StatelessWidget {
           builder: (context, vm) {
             return GestureDetector(
               onTap: () {
-                vm.dispatch(
-                  TodoAction(type: TodoActionType.complete, payload: data),
-                );
+                if (data.isCompleted) {
+                  vm.dispatch(
+                    TodoAction(type: TodoActionType.restore, payload: data),
+                  );
+                } else {
+                  vm.dispatch(
+                    TodoAction(type: TodoActionType.complete, payload: data),
+                  );
+                }
                 Future.delayed(
                     Duration(seconds: 2),
                     () => vm.dispatch(

@@ -25,8 +25,11 @@ class _TodoPlanningPageState extends State<TodoPlanningPage> {
         converter: (store) => TodoViewModel(store),
         builder: (context, vm) {
           return LayoutBuilder(builder: (context, constraints) {
-            var headerStyle =
-                TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
+            var headerStyle = TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF303030),
+            );
             var dropdown = Transform.rotate(
                 angle: math.pi / 2,
                 child: Icon(Icons.arrow_forward_ios_outlined,
@@ -71,10 +74,15 @@ class _TodoPlanningPageState extends State<TodoPlanningPage> {
                           ],
                         ),
                         spacer(y: 10),
-                        ...List.generate(
-                            vm.state.todos.length,
-                            (index) => TodoItem(
-                                showDetails: true, data: vm.state.todos[index]))
+                        ...([...vm.state.todos, ...vm.state.completedTodos]
+                            .map((e) => TodoItem(
+                                  data: e,
+                                  showDetails: true,
+                                )))
+                        // ...List.generate(
+                        //     vm.state.todos.length,
+                        //     (index) => TodoItem(
+                        //         showDetails: true, data: vm.state.todos[index]))
                       ],
                     ),
                   ),

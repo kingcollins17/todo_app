@@ -27,7 +27,7 @@ class TodoCategoryCard extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 16),
           width: screen(context).width / 2.4,
           // height: 150,
-          margin: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+          margin: EdgeInsets.symmetric(horizontal: 3, vertical: 2),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(6), color: background),
           child: Column(
@@ -35,7 +35,10 @@ class TodoCategoryCard extends StatelessWidget {
             children: [
               Text(
                 cardTitle,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF575757)),
               ),
               spacer(),
               Text(

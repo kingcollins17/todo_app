@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:todo_app/models/models.dart';
+import 'package:todo_app/todo/widgets/todo_item.dart';
 
 import './todo.state.dart';
 import './todo.actions.dart';
@@ -30,9 +31,20 @@ TodoState todoReducer(TodoState state, action) {
         var payload = (action.payload as TodoItemData);
         payload.completeTodo();
         state.notification = 'Todo Completed!';
+        state.todos.remove(action.payload);
         state.completedTodos = {payload, ...state.completedTodos}.toList();
         break;
-      //
+
+      case TodoActionType.restore
+          when action.payload is TodoItemData &&
+              state.completedTodos.contains(action.payload):
+        final payload = (action.payload as TodoItemData);
+        payload.date = null;
+        state.notification = 'Task undone';
+        state.completedTodos.remove(payload);
+        state.todos = {payload, ...state.todos}.toList();
+        break;
+
       case TodoActionType.notify when action.payload is String:
         state.notification = action.payload.toString();
         break;

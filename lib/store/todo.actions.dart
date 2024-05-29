@@ -11,6 +11,7 @@ enum TodoActionType {
   favorite,
   delete,
   complete,
+  restore,
   // removeFavorite,
   notify,
   clearNotification

@@ -31,7 +31,7 @@ class NotificationWidget extends StatelessWidget {
             children: [
               Text(
                 notification,
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 16, color: Color(0xFF505050)),
               ),
               Icon(Icons.close, color: Color(0xFF3B3B3B))
             ],

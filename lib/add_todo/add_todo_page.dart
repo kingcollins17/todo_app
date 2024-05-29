@@ -7,6 +7,7 @@ import 'package:todo_app/notification_widget.dart';
 import 'package:todo_app/router_config.dart';
 import 'package:todo_app/shared.dart';
 import 'package:todo_app/store/store.dart';
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 
 class AddTodoPage extends StatefulWidget {
   const AddTodoPage({super.key});
@@ -18,7 +19,17 @@ class AddTodoPage extends StatefulWidget {
 class _AddTodoPageState extends State<AddTodoPage> {
   final formKey = GlobalKey<FormState>();
   String? todo, category = categories.last;
-  int deadline = 2;
+  DateTime? deadline;
+  bool _selectDate = false;
+
+  final today = DateTime.now();
+
+  // bool get selectDate => _selectDate;
+
+  set selectDate(bool value) {
+    setState(() => _selectDate = value);
+  }
+
   @override
   Widget build(BuildContext context) {
     var style = TextStyle(fontSize: 16, fontWeight: FontWeight.w500);
@@ -31,7 +42,10 @@ class _AddTodoPageState extends State<AddTodoPage> {
                   appBar: AppBar(
                       title: Text(
                     'Add Todo',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF3B3B3B)),
                   )),
                   body: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -52,7 +66,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
                                   onChanged: (value) => todo = value,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'Enter Todo Task',
+                                    labelText: 'Add Task',
                                     isDense: true,
                                   ),
                                 ),
@@ -64,25 +78,24 @@ class _AddTodoPageState extends State<AddTodoPage> {
                                 spacer(y: 6),
                                 _categories,
                                 spacer(y: 25),
-                                Text('Deadline in?', style: style)
+                                Text('Deadline', style: style)
                                     .align(Alignment.centerLeft),
-                                DropdownButtonFormField<int>(
-                                  hint: Text('Tap to select deadline'),
-                                  validator: (value) => value == null
-                                      ? 'Please pick a deadline'
-                                      : null,
-                                  items: List.generate(
-                                      31,
-                                      (index) => DropdownMenuItem(
-                                            value: index + 1,
-                                            child: Text(
-                                              '${index + 1} days',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          )),
-                                  onChanged: (value) =>
-                                      deadline = value ?? deadline,
+                                spacer(y: 12),
+                                GestureDetector(
+                                  onTap: () => selectDate = true,
+                                  child: Container(
+                                    alignment: Alignment.centerLeft,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 12),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: lavendarIndigo),
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    child: Text(
+                                      parse(deadline) ?? 'Pick a deadline',
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                  ),
                                 )
                               ],
                             )),
@@ -92,7 +105,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
                             if (formKey.currentState?.validate() ?? false) {
                               final item = TodoItemData(
                                 todo: todo!,
-                                dueIn: Duration(days: deadline),
+                                deadline: deadline!,
                                 category: category!,
                               );
                               vm.dispatch(
@@ -127,10 +140,51 @@ class _AddTodoPageState extends State<AddTodoPage> {
                           vm.dispatch(TodoAction(
                             type: TodoActionType.clearNotification,
                           ));
-                        }))
+                        })),
+              if (_selectDate) Center(child: _datePicker())
+              //   Positioned(child:
+              //   ,)
             ],
           );
         });
+  }
+
+  String? parse(DateTime? date) {
+    if (date == null) return null;
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'April',
+      'May',
+      'Jun',
+      'July',
+      'Aug',
+      'Sept',
+      'Oct',
+      'Nov',
+      'Dec'
+    ];
+    return '${date.day} ${months[date.month - 1]}, ${date.year}';
+  }
+
+  Widget _datePicker() {
+    return Container(
+      width: screen(context).width * 0.9,
+      decoration: BoxDecoration(color: Colors.white, boxShadow: [
+        BoxShadow(blurRadius: 3, offset: Offset(1, 3), color: Color(0x1F000000))
+      ]),
+      child: CalendarDatePicker(
+        currentDate: deadline ?? today,
+        initialDate: deadline ?? today,
+        firstDate: today,
+        lastDate: today.add(Duration(days: 365)),
+        onDateChanged: (value) {
+          deadline = value;
+          selectDate = false;
+        },
+      ),
+    );
   }
 
   Widget get _categories => Row(
@@ -139,15 +193,19 @@ class _AddTodoPageState extends State<AddTodoPage> {
         (index) => GestureDetector(
           onTap: () => setState(() => category = categories[index]),
           child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 3),
+            margin: EdgeInsets.symmetric(horizontal: 5),
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
                 color: categories[index] == category
-                    ? scooter
-                    : Color(0xFFCECECE)),
+                    ? lavendarIndigo
+                    : Color(0xFFE4E4E4)),
             child: Text(categories[index],
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                style: TextStyle(
+                    fontSize: 14,
+                    // fontWeight: FontWeight.bold,
+                    color:
+                        categories[index] == category ? Colors.white : null)),
           ),
         ),
       ));

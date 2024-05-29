@@ -69,13 +69,17 @@ class _TodoHomePageState extends State<TodoHomePage> {
   }
 
   Widget get tabBar {
-    const style = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
+    const style = TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+      color: Color(0xFF303030),
+    );
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 6),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          wrapBar(Text('Todo', style: style), _Tabs.todo),
+          wrapBar(Text('To do', style: style), _Tabs.todo),
           wrapBar(Text('Planning', style: style), _Tabs.planning),
           wrapBar(Text('Done', style: style), _Tabs.done),
         ],
@@ -96,11 +100,12 @@ class _TodoHomePageState extends State<TodoHomePage> {
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
         child: Container(
           height: 40,
+          alignment: Alignment.center,
           decoration: BoxDecoration(color: shade, borderRadius: circular),
           child: TextField(
               decoration: InputDecoration(
-                  hintText: 'Todo, Task, Plan',
-                  hintStyle: TextStyle(color: Colors.grey),
+                  hintText: 'To do, Task, Plan',
+                  hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
                   prefixIcon:
                       Icon(Icons.search, size: 25, color: Color(0xFF8D8D8D)),
                   border: OutlineInputBorder(

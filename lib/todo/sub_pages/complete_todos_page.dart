@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:todo_app/notification_widget.dart';
 import 'package:todo_app/shared.dart';
 import 'package:todo_app/store/store.dart';
 
@@ -24,17 +25,31 @@ class _CompletedTodosPageState extends State<CompletedTodosPage> {
           return LayoutBuilder(
             builder: (context, constraints) => Material(
               color: Colors.transparent,
-              child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 18, vertical: 6),
-                child: Builder(builder: (context) {
-                  final histories = historify(vm.state.completedTodos);
-                  final children = histories.map((e) => history(e.$1, e.$2));
-                  return Column(
-                    children: children
-                        .map((value) => Column(children: value))
-                        .toList(),
-                  );
-                }),
+              child: Stack(
+                children: [
+                  SingleChildScrollView(
+                    padding: EdgeInsets.symmetric(horizontal: 18, vertical: 6),
+                    child: Builder(builder: (context) {
+                      final histories = historify(vm.state.completedTodos);
+                      final children =
+                          histories.map((e) => history(e.$1, e.$2));
+                      return Column(
+                        children: children
+                            .map((value) => Column(children: value))
+                            .toList(),
+                      );
+                    }),
+                  ),
+                  if (vm.state.notification != null)
+                    Positioned(
+                        top: 10,
+                        child: NotificationWidget(
+                            notification: vm.state.notification!,
+                            closer: () {
+                              vm.dispatch(TodoAction(
+                                  type: TodoActionType.clearNotification));
+                            }))
+                ],
               ),
             ),
           );
@@ -49,6 +64,7 @@ class _CompletedTodosPageState extends State<CompletedTodosPage> {
         style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
+            color: Color(0xFF3F3F3F)
         ),
       ).align(Alignment.centerLeft),
       spacer(y: 15),
